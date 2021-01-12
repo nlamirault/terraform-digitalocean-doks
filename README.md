@@ -1,5 +1,7 @@
 # terraform-gcp-kubernetes
 
+<a href="https://registry.terraform.io/modules/nlamirault/doks/digitalocean/latest"><img src="https://img.shields.io/badge/Terraform-Registry-blue" alt="Terraform Registry"></a>
+
 Terraform module which configure a Kubernetes cluster on Google Cloud
 
 ## Versions
