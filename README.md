@@ -1,73 +1,39 @@
-# terraform-gcp-kubernetes
+# terraform-digitalocean-doks
 
 <a href="https://registry.terraform.io/modules/nlamirault/doks/digitalocean/latest"><img src="https://img.shields.io/badge/Terraform-Registry-blue" alt="Terraform Registry"></a>
 
-Terraform module which configure a Kubernetes cluster on Google Cloud
+Terraform module which configure a Kubernetes cluster (DOKS) on Digital Ocean
 
 ## Versions
 
-Use Terraform `0.13+` and Terraform Provider Google `3.5+` and Google Beta `3.5+`.
+Use Terraform `0.13+` and Terraform Provider Digital Ocean `1.22.0+`
 
 These types of resources are supported:
 
-* [google_container_cluster](https://www.terraform.io/docs/providers/google/r/container_cluster.html)
-* [google_container_node_pool](https://www.terraform.io/docs/providers/google/r/container_node_pool.html)
+* [digitalocean_kubernetes_cluster](https://registry.terraform.io/providers/digitalocean/digitalocean/latest/docs/resources/kubernetes_cluster)
+* [digitalocean_kubernetes_node_pool](https://registry.terraform.io/providers/digitalocean/digitalocean/latest/docs/resources/kubernetes_node_pool)
 
 ## Usage
 
 ```hcl
 
 module "kubernetes" {
+  source  = "nlamirault/doks/digitalocean"
+  version = "x.y.z"
 
-  project  = var.project
-  location = var.location
+  cluster_name       = var.cluster_name
+  auto_upgrade       = var.auto_upgrade
+  region             = var.region
+  kubernetes_version = var.kubernetes_version
+  tags               = var.tags
 
-  network        = var.network
-  subnet_network = var.subnet_network
-
-  name                       = var.name
-  release_channel            = var.release_channel
-  network_config             = var.network_config
-  master_ipv4_cidr_block     = var.master_ipv4_cidr_block
-  master_authorized_networks = var.master_authorized_networks
-
-  maintenance_start_time = var.maintenance_start_time
-
-  auto_scaling_max_cpu = var.auto_scaling_max_cpu
-  auto_scaling_min_cpu = var.auto_scaling_min_cpu
-  auto_scaling_max_mem = var.auto_scaling_max_mem
-  auto_scaling_min_mem = var.auto_scaling_min_mem
-
-  default_max_pods_per_node = var.default_max_pods_per_node
-  max_pods_per_node         = var.max_pods_per_node
-
-  labels = var.labels
-
-  network_policy             = var.network_policy
-  auto_scaling               = var.auto_scaling
-  hpa                        = var.hpa
-  pod_security_policy        = var.pod_security_policy
-  monitoring_service         = var.monitoring_service
-  logging_service            = var.logging_service
-  binary_authorization       = var.binary_authorization
-  google_cloud_load_balancer = var.google_cloud_load_balancer
-  istio                      = var.istio
-  cloudrun                   = var.cloudrun
-  csi_driver                 = var.csi_driver
-
-  node_pool_name          = var.node_pool_name
-  default_service_account = var.default_service_account
-  node_count              = var.node_count
-  max_node_count          = var.max_node_count
-  min_node_count          = var.min_node_count
-  machine_type            = var.machine_type
-  disk_size_gb            = var.disk_size_gb
-  auto_upgrade            = var.auto_upgrade
-  auto_repair             = var.auto_repair
-  image_type              = var.image_type
-  preemptible             = var.preemptible
-  node_labels             = var.node_labels
-  node_tags               = var.node_tags
+  size        = var.size
+  auto_scale  = var.auto_scale
+  min_nodes   = var.min_nodes
+  max_nodes   = var.max_nodes
+  node_count  = var.node_count
+  node_tags   = var.node_tags
+  node_labels = var.node_labels
 
   node_pools = var.node_pools
 }
@@ -76,92 +42,76 @@ module "kubernetes" {
 With variables :
 
 ```hcl
-project = "foo"
+cluster_name = "portefaix-sandbox-do-k8s"
 
-location = "europe-west1"
+region = "fra1"
 
-#####################################################################""
-# Kubernetes cluster
-
-name = "mykube"
-
-network        = "customer-prodnet"
-subnet_network = "customer-prodsubnet-europe-west1"
-
-release_channel = "REGULAR"
-
-network_config = {
-  enable_natgw   = true
-  enable_ssh     = false
-  private_master = false
-  private_nodes  = true
-  pods_cidr      = "customer-prodsubnet-gke-pods-europe-west1"
-  services_cidr  = "customer-prodsubnet-gke-services-europe-west1"
-}
-
-master_authorized_networks = [
-  {
-    cidr_block   = "0.0.0.0/0"
-    display_name = "internet"
-  }
-]
-
-labels = {
-  env      = "prod"
-  service  = "kubernetes"
-  made_by  = "terraform"
-}
-
-network_policy             = false
-auto_scaling               = true
-hpa                        = true
-pod_security_policy        = false
-monitoring_service         = true
-logging_service            = true
-binary_authorization       = false
-google_cloud_load_balancer = true
-istio                      = false
-cloudrun                   = false
-csi_driver                 = true
-
-maintenance_start_time = "01:00"
-
-default_max_pods_per_node = 110
-max_pods_per_node = 110
-
-#####################################################################""
-# Kubernetes node pool
-
-default_service_account = false
-
-node_pool_name = "core"
-
-node_count     = 1
-min_node_count = 1
-max_node_count = 2
-
-machine_type = "n1-standard-4"
-disk_size_gb = 100
-
+kubernetes_version = "1.18.10"
 auto_upgrade = true
-auto_repair  = true
+size = "s-1vcpu-2gb"
 
-preemptible = false
+auto_scale = true
+min_nodes = 1
+max_nodes = 2
+node_count = 1
 
 node_labels = {
   env      = "prod"
   service  = "kubernetes"
-  made_by  = "terraform"
+  made-by  = "terraform"
 }
 
-node_tags = ["kubernetes", "nodes", "nat-europe-west1"]
+node_tags = ["kubernetes", "nodes"]
 
+node_pools = {}
+#node_pools = {
+#  "ops" = {
+#    auto_scale = true
+#    min_nodes = 1
+#    max_nodes = 3
+#    node_count = 1
+#    size = "s-1vcpu-2gb"
+#    node_labels = {
+#      env      = "prod"
+#      service  = "kubernetes"
+#      made-by  = "terraform"
+#  }
+#    node_tags = ["kubernetes", "nodes"]
+#  }
+#}
 ```
 
 This module creates :
 
 * a Kubernetes cluster
-* a service account
 * node pool(s)
 
 ## Documentation
+
+### Providers
+
+| Name | Version |
+|------|---------|
+| digitalocean | >= 1.22.0 |
+
+### Inputs
+
+| Name | Description | Type | Default | Required |
+|------|-------------|------|---------|:-----:|
+| auto\_scale | Enable cluster autoscaling | `bool` | n/a | yes |
+| auto\_upgrade | Whether the cluster will be automatically upgraded | `bool` | n/a | yes |
+| cluster\_name | Cluster name | `string` | n/a | yes |
+| kubernetes\_version | The EKS Kubernetes version | `string` | n/a | yes |
+| max\_nodes | Autoscaling maximum node capacity | `string` | `5` | no |
+| min\_nodes | Autoscaling Minimum node capacity | `string` | `1` | no |
+| node\_count | The number of Droplet instances in the node pool. | `number` | n/a | yes |
+| node\_labels | List of Kubernetes labels to apply to the nodes | `map` | <pre>{<br>  "service": "kubernetes"<br>}</pre> | no |
+| node\_pools | Addons node pools | <pre>map(object({<br>    size        = string<br>    node_count  = number<br>    auto_scale  = bool<br>    min_nodes   = number<br>    max_nodes   = number<br>    node_tags   = list(string)<br>    node_labels = map(string)<br>  }))</pre> | `{}` | no |
+| node\_tags | The list of instance tags applied to all nodes. | `list` | <pre>[<br>  "kubernetes"<br>]</pre> | no |
+| region | The location of the cluster | `string` | n/a | yes |
+| size | The slug identifier for the type of Droplet to be used as workers in the node pool. | `string` | n/a | yes |
+| tags | The list of instance tags applied to the cluster. | `list` | <pre>[<br>  "kubernetes"<br>]</pre> | no |
+
+### Outputs
+
+No output.
