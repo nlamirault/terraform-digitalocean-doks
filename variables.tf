@@ -36,7 +36,17 @@ variable "tags" {
 
 variable "kubernetes_version" {
   type        = string
-  description = "The EKS Kubernetes version"
+  description = "The Kubernetes version"
+}
+
+variable "maintenance_policy_start_time" {
+  type        = string
+  description = "The start time in UTC of the maintenance window policy in 24-hour clock format / HH:MM notation"
+}
+
+variable "maintenance_policy_day" {
+  type        = string
+  description = "The day of the maintenance window policy"
 }
 
 variable "size" {
