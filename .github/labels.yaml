@@ -14,9 +14,7 @@
 
 # labels to be used with /area command
 area:
-  - 'gcp'
-  - 'aws'
-  - 'azure'
+  - 'exoscale'
   - 'kubernetes'
 
 kind:
@@ -40,22 +38,6 @@ status:
 # File globs for PR labeler
 # tests:
 #   - '**/*.test.ts'
-
-'area/kubernetes':
-  - kubernetes/*
-  - kubernetes/**/*
-
-'area/gcp':
-  - iac/gcp/*
-  - iac/gcp/**/*
-
-'area/aws':
-  - iac/aws/*
-  - iac/aws/**/*
-
-'area/azure':
-  - iac/azure/*
-  - iac/azure/**/*
 
 'kind/documentation':
   - docs/*

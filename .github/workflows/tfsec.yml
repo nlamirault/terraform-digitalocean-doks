@@ -24,7 +24,7 @@ on:
 
 jobs:
   tfsec:
-    name: gcp
+    name: exoscale
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
