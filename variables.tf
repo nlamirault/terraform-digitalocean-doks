@@ -95,6 +95,12 @@ variable "node_tags" {
   default     = ["kubernetes"]
 }
 
+variable "vpc_uuid" {
+  type        = string
+  default     = ""
+  description = "The ID of the VPC where the Kubernetes cluster will be located"
+}
+
 #############################################################################
 # Addons node pool
 

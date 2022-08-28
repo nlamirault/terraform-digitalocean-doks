@@ -17,7 +17,8 @@ resource "digitalocean_kubernetes_cluster" "k8s" {
   region  = var.region
   version = data.digitalocean_kubernetes_versions.k8s.latest_version
   #var.kubernetes_version
-
+  
+  vpc_uuid     = var.vpc_uuid
   auto_upgrade = var.auto_upgrade
   tags         = var.tags
 

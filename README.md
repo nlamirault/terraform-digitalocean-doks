@@ -102,6 +102,7 @@ This module creates :
 | auto\_upgrade | Whether the cluster will be automatically upgraded | `bool` | n/a | yes |
 | cluster\_name | Cluster name | `string` | n/a | yes |
 | kubernetes\_version | The EKS Kubernetes version | `string` | n/a | yes |
+| vpc_uuid | The ID of the VPC where the Kubernetes cluster will be located | `string` | "" | no |
 | max\_nodes | Autoscaling maximum node capacity | `string` | `5` | no |
 | min\_nodes | Autoscaling Minimum node capacity | `string` | `1` | no |
 | node\_count | The number of Droplet instances in the node pool. | `number` | n/a | yes |
