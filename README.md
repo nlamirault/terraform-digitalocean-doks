@@ -4,115 +4,57 @@
 
 Terraform module which configure a Kubernetes cluster (DOKS) on Digital Ocean
 
-## Versions
-
-Use Terraform `0.13+` and Terraform Provider Digital Ocean `1.22.0+`
-
-These types of resources are supported:
-
-* [digitalocean_kubernetes_cluster](https://registry.terraform.io/providers/digitalocean/digitalocean/latest/docs/resources/kubernetes_cluster)
-* [digitalocean_kubernetes_node_pool](https://registry.terraform.io/providers/digitalocean/digitalocean/latest/docs/resources/kubernetes_node_pool)
-
-## Usage
-
-```hcl
-
-module "kubernetes" {
-  source  = "nlamirault/doks/digitalocean"
-  version = "x.y.z"
-
-  cluster_name       = var.cluster_name
-  auto_upgrade       = var.auto_upgrade
-  region             = var.region
-  kubernetes_version = var.kubernetes_version
-  tags               = var.tags
-
-  size        = var.size
-  auto_scale  = var.auto_scale
-  min_nodes   = var.min_nodes
-  max_nodes   = var.max_nodes
-  node_count  = var.node_count
-  node_tags   = var.node_tags
-  node_labels = var.node_labels
-
-  node_pools = var.node_pools
-}
-```
-
-With variables :
-
-```hcl
-cluster_name = "portefaix-sandbox-do-k8s"
-
-region = "fra1"
-
-kubernetes_version = "1.18.10"
-auto_upgrade = true
-size = "s-1vcpu-2gb"
-
-auto_scale = true
-min_nodes = 1
-max_nodes = 2
-node_count = 1
-
-node_labels = {
-  env      = "prod"
-  service  = "kubernetes"
-  made-by  = "terraform"
-}
-
-node_tags = ["kubernetes", "nodes"]
-
-node_pools = {}
-#node_pools = {
-#  "ops" = {
-#    auto_scale = true
-#    min_nodes = 1
-#    max_nodes = 3
-#    node_count = 1
-#    size = "s-1vcpu-2gb"
-#    node_labels = {
-#      env      = "prod"
-#      service  = "kubernetes"
-#      made-by  = "terraform"
-#  }
-#    node_tags = ["kubernetes", "nodes"]
-#  }
-#}
-```
-
-This module creates :
-
-* a Kubernetes cluster
-* node pool(s)
-
 ## Documentation
 
-### Providers
+<!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
+## Requirements
 
 | Name | Version |
 |------|---------|
-| digitalocean | >= 1.22.0 |
+| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.0.0 |
+| <a name="requirement_digitalocean"></a> [digitalocean](#requirement\_digitalocean) | >= 2.10.0 |
 
-### Inputs
+## Providers
+
+| Name | Version |
+|------|---------|
+| <a name="provider_digitalocean"></a> [digitalocean](#provider\_digitalocean) | >= 2.10.0 |
+
+## Modules
+
+No modules.
+
+## Resources
+
+| Name | Type |
+|------|------|
+| [digitalocean_kubernetes_cluster.k8s](https://registry.terraform.io/providers/digitalocean/digitalocean/latest/docs/resources/kubernetes_cluster) | resource |
+| [digitalocean_kubernetes_node_pool.node_pools](https://registry.terraform.io/providers/digitalocean/digitalocean/latest/docs/resources/kubernetes_node_pool) | resource |
+| [digitalocean_kubernetes_versions.k8s](https://registry.terraform.io/providers/digitalocean/digitalocean/latest/docs/data-sources/kubernetes_versions) | data source |
+| [digitalocean_sizes.k8s](https://registry.terraform.io/providers/digitalocean/digitalocean/latest/docs/data-sources/sizes) | data source |
+
+## Inputs
 
 | Name | Description | Type | Default | Required |
-|------|-------------|------|---------|:-----:|
-| auto\_scale | Enable cluster autoscaling | `bool` | n/a | yes |
-| auto\_upgrade | Whether the cluster will be automatically upgraded | `bool` | n/a | yes |
-| cluster\_name | Cluster name | `string` | n/a | yes |
-| kubernetes\_version | The EKS Kubernetes version | `string` | n/a | yes |
-| vpc_uuid | The ID of the VPC where the Kubernetes cluster will be located | `string` | "" | no |
-| max\_nodes | Autoscaling maximum node capacity | `string` | `5` | no |
-| min\_nodes | Autoscaling Minimum node capacity | `string` | `1` | no |
-| node\_count | The number of Droplet instances in the node pool. | `number` | n/a | yes |
-| node\_labels | List of Kubernetes labels to apply to the nodes | `map` | <pre>{<br>  "service": "kubernetes"<br>}</pre> | no |
-| node\_pools | Addons node pools | <pre>map(object({<br>    size        = string<br>    node_count  = number<br>    auto_scale  = bool<br>    min_nodes   = number<br>    max_nodes   = number<br>    node_tags   = list(string)<br>    node_labels = map(string)<br>  }))</pre> | `{}` | no |
-| node\_tags | The list of instance tags applied to all nodes. | `list` | <pre>[<br>  "kubernetes"<br>]</pre> | no |
-| region | The location of the cluster | `string` | n/a | yes |
-| size | The slug identifier for the type of Droplet to be used as workers in the node pool. | `string` | n/a | yes |
-| tags | The list of instance tags applied to the cluster. | `list` | <pre>[<br>  "kubernetes"<br>]</pre> | no |
+|------|-------------|------|---------|:--------:|
+| <a name="input_auto_scale"></a> [auto\_scale](#input\_auto\_scale) | Enable cluster autoscaling | `bool` | n/a | yes |
+| <a name="input_auto_upgrade"></a> [auto\_upgrade](#input\_auto\_upgrade) | Whether the cluster will be automatically upgraded | `bool` | n/a | yes |
+| <a name="input_cluster_name"></a> [cluster\_name](#input\_cluster\_name) | Cluster name | `string` | n/a | yes |
+| <a name="input_kubernetes_version"></a> [kubernetes\_version](#input\_kubernetes\_version) | The Kubernetes version | `string` | n/a | yes |
+| <a name="input_maintenance_policy_day"></a> [maintenance\_policy\_day](#input\_maintenance\_policy\_day) | The day of the maintenance window policy | `string` | n/a | yes |
+| <a name="input_maintenance_policy_start_time"></a> [maintenance\_policy\_start\_time](#input\_maintenance\_policy\_start\_time) | The start time in UTC of the maintenance window policy in 24-hour clock format / HH:MM notation | `string` | n/a | yes |
+| <a name="input_max_nodes"></a> [max\_nodes](#input\_max\_nodes) | Autoscaling maximum node capacity | `string` | `5` | no |
+| <a name="input_min_nodes"></a> [min\_nodes](#input\_min\_nodes) | Autoscaling Minimum node capacity | `string` | `1` | no |
+| <a name="input_node_count"></a> [node\_count](#input\_node\_count) | The number of Droplet instances in the node pool. | `number` | n/a | yes |
+| <a name="input_node_labels"></a> [node\_labels](#input\_node\_labels) | List of Kubernetes labels to apply to the nodes | `map(any)` | <pre>{<br>  "service": "kubernetes"<br>}</pre> | no |
+| <a name="input_node_pools"></a> [node\_pools](#input\_node\_pools) | Addons node pools | <pre>map(object({<br>    size        = string<br>    node_count  = number<br>    auto_scale  = bool<br>    min_nodes   = number<br>    max_nodes   = number<br>    node_tags   = list(string)<br>    node_labels = map(string)<br>  }))</pre> | `{}` | no |
+| <a name="input_node_tags"></a> [node\_tags](#input\_node\_tags) | The list of instance tags applied to all nodes. | `list(any)` | <pre>[<br>  "kubernetes"<br>]</pre> | no |
+| <a name="input_region"></a> [region](#input\_region) | The location of the cluster | `string` | n/a | yes |
+| <a name="input_size"></a> [size](#input\_size) | The slug identifier for the type of Droplet to be used as workers in the node pool. | `string` | n/a | yes |
+| <a name="input_tags"></a> [tags](#input\_tags) | The list of instance tags applied to the cluster. | `list(any)` | <pre>[<br>  "kubernetes"<br>]</pre> | no |
+| <a name="input_vpc_uuid"></a> [vpc\_uuid](#input\_vpc\_uuid) | The ID of the VPC where the Kubernetes cluster will be located | `string` | `""` | no |
 
-### Outputs
+## Outputs
 
-No output.
+No outputs.
+<!-- END OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
