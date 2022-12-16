@@ -1,4 +1,5 @@
-# Copyright (C) 2019-2020 Nicolas Lamirault <nicolas.lamirault@gmail.com>
+# Copyright (C) Nicolas Lamirault <nicolas.lamirault@gmail.com>
+#
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
 # You may obtain a copy of the License at
@@ -10,6 +11,8 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
+#
+# SPDX-License-Identifier: Apache-2.0
 
 #####################################################################""
 # Provider
@@ -30,7 +33,7 @@ variable "region" {
 
 variable "tags" {
   description = "The list of instance tags applied to the cluster."
-  type        = list
+  type        = list(any)
   default     = ["kubernetes"]
 }
 
@@ -83,7 +86,7 @@ variable "auto_upgrade" {
 
 variable "node_labels" {
   description = "List of Kubernetes labels to apply to the nodes"
-  type        = map
+  type        = map(any)
   default = {
     "service" = "kubernetes"
   }
@@ -91,7 +94,7 @@ variable "node_labels" {
 
 variable "node_tags" {
   description = "The list of instance tags applied to all nodes."
-  type        = list
+  type        = list(any)
   default     = ["kubernetes"]
 }
 
