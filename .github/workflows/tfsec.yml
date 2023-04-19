@@ -26,7 +26,7 @@ on:
 
 jobs:
   tfsec:
-    name: exoscale
+    name: doks
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
