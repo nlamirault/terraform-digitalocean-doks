@@ -24,7 +24,7 @@ on:
 
 jobs:
   tflint:
-    name: eks
+    name: doks
     runs-on: ubuntu-latest
 
     steps:
