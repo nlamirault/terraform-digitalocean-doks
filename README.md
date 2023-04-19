@@ -51,6 +51,7 @@ No modules.
 | <a name="input_node_tags"></a> [node\_tags](#input\_node\_tags) | The list of instance tags applied to all nodes. | `list(any)` | <pre>[<br>  "kubernetes"<br>]</pre> | no |
 | <a name="input_region"></a> [region](#input\_region) | The location of the cluster | `string` | n/a | yes |
 | <a name="input_size"></a> [size](#input\_size) | The slug identifier for the type of Droplet to be used as workers in the node pool. | `string` | n/a | yes |
+| <a name="input_surge_upgrade"></a> [surge\_upgrade](#input\_surge\_upgrade) | Enable/disable surge upgrades for a cluster | `bool` | `false` | no |
 | <a name="input_tags"></a> [tags](#input\_tags) | The list of instance tags applied to the cluster. | `list(any)` | <pre>[<br>  "kubernetes"<br>]</pre> | no |
 | <a name="input_vpc_uuid"></a> [vpc\_uuid](#input\_vpc\_uuid) | The ID of the VPC where the Kubernetes cluster will be located | `string` | `""` | no |
 

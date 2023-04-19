@@ -18,11 +18,11 @@ resource "digitalocean_kubernetes_cluster" "k8s" {
   name    = var.cluster_name
   region  = var.region
   version = data.digitalocean_kubernetes_versions.k8s.latest_version
-  #var.kubernetes_version
 
-  vpc_uuid     = var.vpc_uuid
-  auto_upgrade = var.auto_upgrade
-  tags         = var.tags
+  vpc_uuid      = var.vpc_uuid
+  auto_upgrade  = var.auto_upgrade
+  surge_upgrade = var.surge_upgrade
+  tags          = var.tags
 
   node_pool {
     name       = format("%s-core", var.cluster_name)

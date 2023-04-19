@@ -84,6 +84,12 @@ variable "auto_upgrade" {
   description = "Whether the cluster will be automatically upgraded"
 }
 
+variable "surge_upgrade" {
+  type        = bool
+  description = "Enable/disable surge upgrades for a cluster"
+  default     = false
+}
+
 variable "node_labels" {
   description = "List of Kubernetes labels to apply to the nodes"
   type        = map(any)
