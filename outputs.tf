@@ -14,6 +14,6 @@
 #
 # SPDX-License-Identifier: Apache-2.0
 
-output "cluster_id" {
-  value = digitalocean_kubernetes_cluster.k8s.id
+output "cluster_name" {
+  value = digitalocean_kubernetes_cluster.k8s.name
 }
