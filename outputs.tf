@@ -13,3 +13,7 @@
 # limitations under the License.
 #
 # SPDX-License-Identifier: Apache-2.0
+
+output "cluster_id" {
+  value = digitalocean_kubernetes_cluster.k8s.id
+}
